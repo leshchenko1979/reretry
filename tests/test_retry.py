@@ -217,7 +217,6 @@ async def test_async():
     async def f():
         await asyncio.sleep(0.01)
         nonlocal attempts, raised
-        print("attempts left:", attempts)
         if attempts:
             raised = True
             attempts -= 1
