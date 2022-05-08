@@ -201,7 +201,6 @@ def test_is_async():
     def generator():
         yield
 
-
     assert _is_async(async_func)
     assert not _is_async(non_async_func)
     assert not _is_async(generator)
@@ -216,8 +215,9 @@ async def test_async():
 
     @retry(tries=2)
     async def f():
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0.01)
         nonlocal attempts, raised
+        print("attempts left:", attempts)
         if attempts:
             raised = True
             attempts -= 1
@@ -241,3 +241,18 @@ def test_check_params():
 
     with pytest.raises(AssertionError):
         retry_call(async_func, fail_callback=non_async_func)
+
+
+def test_logging():
+    logger = MagicMock()
+    logger.warning = MagicMock()
+
+    def f():
+        raise RuntimeError
+
+    try:
+        retry_call(f, logger=logger, tries=2)
+    except RuntimeError:
+        pass
+
+    assert logger.warning.called
