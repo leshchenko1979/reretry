@@ -242,7 +242,7 @@ def test_check_params():
         retry_call(async_func, fail_callback=non_async_func)
 
 
-def test_logging():
+def test_show_traceback():
     logger = MagicMock()
     logger.warning = MagicMock()
 
@@ -250,7 +250,7 @@ def test_logging():
         raise RuntimeError
 
     try:
-        retry_call(f, logger=logger, tries=2)
+        retry_call(f, show_traceback=True, logger=logger, tries=2)
     except RuntimeError:
         pass
 
