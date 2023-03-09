@@ -89,16 +89,12 @@ def _log_attempt(tries, show_traceback, logger, _tries, _delay, e):
             logger.warning(tb_str)
 
         logger.warning(
-            "%s, attempt %s/%s failed - retrying in %s seconds...",
-            e,
-            tries - _tries,
-            tries,
-            _delay,
+            f"{e}, attempt {tries - _tries}/{tries} failed - retrying in {_delay} seconds..."
         )
 
     elif tries > 1:
         logger.warning(
-            "%s, attempt %s/%s failed - giving up!", e, tries - _tries, tries
+            f"{e}, attempt {tries - _tries}/{tries} failed - giving up!"
         )
 
 
