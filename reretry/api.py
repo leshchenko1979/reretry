@@ -205,8 +205,8 @@ def retry_call(
     :param fail_callback: fail_callback(e) will be called on failed attempts.
     :returns: the result of the f function.
     """
-    args = fargs or list()
-    kwargs = fkwargs or dict()
+    args = fargs or []
+    kwargs = fkwargs or {}
 
     _check_params(f, show_traceback, logger, fail_callback)
 
