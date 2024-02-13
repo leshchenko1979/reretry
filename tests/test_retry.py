@@ -203,3 +203,15 @@ def test_show_traceback():
         pass
 
     assert logger.warning.called
+
+def test_save_spec():
+
+    @retry(tries=2)
+    def decorated(x, y, *, a: str = "a"):
+        pass
+
+    def undecorated(x, y, *, a: str = "a"):
+        pass
+
+    import inspect
+    assert inspect.getfullargspec(decorated) == inspect.getfullargspec(undecorated)
