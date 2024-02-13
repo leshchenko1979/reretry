@@ -204,14 +204,22 @@ def test_show_traceback():
 
     assert logger.warning.called
 
+
 def test_save_spec():
+    try:
+        # currently works only if `decorator` package is installed
+        import decorator
 
-    @retry(tries=2)
-    def decorated(x, y, *, a: str = "a"):
+        @retry(tries=2)
+        def decorated(x, y, *, a: str = "a"):
+            pass
+
+        def undecorated(x, y, *, a: str = "a"):
+            pass
+
+        from inspect import getfullargspec
+
+        assert getfullargspec(decorated) == getfullargspec(undecorated)
+
+    except ImportError:
         pass
-
-    def undecorated(x, y, *, a: str = "a"):
-        pass
-
-    import inspect
-    assert inspect.getfullargspec(decorated) == inspect.getfullargspec(undecorated)
